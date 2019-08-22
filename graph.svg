@@ -1,0 +1,54 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter" [label = "aws_cloudwatch_log_subscription_filter.kinesis_logfilter", shape = "box"]
+		"[root] aws_iam_role.firehose_role" [label = "aws_iam_role.firehose_role", shape = "box"]
+		"[root] aws_iam_role.iam_for_lambda" [label = "aws_iam_role.iam_for_lambda", shape = "box"]
+		"[root] aws_iam_role.test_role" [label = "aws_iam_role.test_role", shape = "box"]
+		"[root] aws_iam_role_policy.firehose_role_policy" [label = "aws_iam_role_policy.firehose_role_policy", shape = "box"]
+		"[root] aws_iam_role_policy.policy_for_lambda" [label = "aws_iam_role_policy.policy_for_lambda", shape = "box"]
+		"[root] aws_iam_role_policy.test_policy" [label = "aws_iam_role_policy.test_policy", shape = "box"]
+		"[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream" [label = "aws_kinesis_firehose_delivery_stream.extended_s3_stream", shape = "box"]
+		"[root] aws_kinesis_stream.mod" [label = "aws_kinesis_stream.mod", shape = "box"]
+		"[root] aws_lambda_function.lambda_processor" [label = "aws_lambda_function.lambda_processor", shape = "box"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter" -> "[root] aws_iam_role.test_role"
+		"[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter" -> "[root] aws_kinesis_stream.mod"
+		"[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter" -> "[root] var.log_group"
+		"[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter" -> "[root] var.subscription_cloudwatch_kinesis"
+		"[root] aws_iam_role.firehose_role" -> "[root] provider.aws"
+		"[root] aws_iam_role.iam_for_lambda" -> "[root] provider.aws"
+		"[root] aws_iam_role.test_role" -> "[root] provider.aws"
+		"[root] aws_iam_role.test_role" -> "[root] var.aws_region"
+		"[root] aws_iam_role_policy.firehose_role_policy" -> "[root] aws_iam_role.firehose_role"
+		"[root] aws_iam_role_policy.policy_for_lambda" -> "[root] aws_iam_role.iam_for_lambda"
+		"[root] aws_iam_role_policy.test_policy" -> "[root] aws_iam_role.test_role"
+		"[root] aws_iam_role_policy.test_policy" -> "[root] var.iam_role_policy"
+		"[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream" -> "[root] aws_iam_role.firehose_role"
+		"[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream" -> "[root] aws_kinesis_stream.mod"
+		"[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream" -> "[root] aws_lambda_function.lambda_processor"
+		"[root] aws_kinesis_stream.mod" -> "[root] provider.aws"
+		"[root] aws_kinesis_stream.mod" -> "[root] var.retention_period"
+		"[root] aws_kinesis_stream.mod" -> "[root] var.shard_count"
+		"[root] aws_kinesis_stream.mod" -> "[root] var.stream_name"
+		"[root] aws_lambda_function.lambda_processor" -> "[root] aws_iam_role.iam_for_lambda"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] aws_iam_role_policy.firehose_role_policy"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] aws_iam_role_policy.policy_for_lambda"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] aws_iam_role_policy.test_policy"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] var.create_api_gateway"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] var.create_s3_backup"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] var.environment_name"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] var.lambda_s3_bucket"
+		"[root] provider.aws (close)" -> "[root] aws_cloudwatch_log_subscription_filter.kinesis_logfilter"
+		"[root] provider.aws (close)" -> "[root] aws_iam_role_policy.firehose_role_policy"
+		"[root] provider.aws (close)" -> "[root] aws_iam_role_policy.policy_for_lambda"
+		"[root] provider.aws (close)" -> "[root] aws_iam_role_policy.test_policy"
+		"[root] provider.aws (close)" -> "[root] aws_kinesis_firehose_delivery_stream.extended_s3_stream"
+		"[root] root" -> "[root] meta.count-boundary (count boundary fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+	}
+}
+
